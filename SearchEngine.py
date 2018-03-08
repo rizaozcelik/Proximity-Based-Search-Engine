@@ -1,7 +1,8 @@
-import pickle
 import bisect
+import pickle
 
 from PorterStemmer import PorterStemmer
+
 
 # This method is responsible for searching related documents given a proximity query. Note that proximity value -1 is
 # set as a special marker and it will be used for type 1 query. All of the type 2 queries are converted to type 3 by
@@ -25,7 +26,7 @@ def retrieve_documents(word_to_index, postings_lists, query_tokens):
     common_documents = set.intersection(*doc_lists)
     # Return the answer for type 1 query
     if proximities[0] == -1:
-        return common_documents
+        return sorted(common_documents)
     # Now start the search for type 3 query. The algorithm is as follows: Iterate through each document in the common
     # document list and for each token, check if matches the condition with the adjacent token. If so, move to the next
     # token. It is similar to sliding a search window over tokens for each document.
@@ -72,8 +73,9 @@ def main():
     word_to_index = pickle.load(open('word_to_index.pkl', 'rb'))
     postings_lists = pickle.load(open('postings_lists.pkl', 'rb'))
     # Take input from the user.
-    # query = input()
-    query = '3  common  /0 stock  /0 under'
+    query = input()
+    # For entering query inside the program please uncomment this line.
+    # query = '3  common /0 stock /0 under'
     # Parse the query type
     query_tokens = query.split()
     query_type = int(query_tokens.pop(0))

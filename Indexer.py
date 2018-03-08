@@ -62,13 +62,13 @@ def tokenize(documents):
     # Create a dictionary where each element is also a dictionary. The outer dictionary will map stemmed words to
     # document ids and the inner dictionaries will map the document ids to their indices in the document.
     word_to_doc = defaultdict(lambda: defaultdict(list))  # Positional inverted index
-    for article_index, document in enumerate(documents, start=1):
+    for document_index, document in enumerate(documents, start=1):
         for word_index, word in enumerate(document.split()):
             if word not in stop_word_set:
                 # Store each word as stemmed and put them to the inverted index
                 stemmed_word = p.stem(word, 0, len(word) - 1)
-                word_to_doc[stemmed_word][article_index].append(word_index)
-
+                # stemmed_word = word
+                word_to_doc[stemmed_word][document_index].append(word_index)
     return word_to_doc
 
 
